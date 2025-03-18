@@ -3,8 +3,6 @@ import Box from '@mui/material/Box';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { Typography } from "@mui/material";
-
 
 const boxStyling = {
     p: { xs: 2, sm: 4, md: 6 }, 
@@ -22,7 +20,8 @@ const boxStyling = {
 export default function UploadBox() {
     const [filename, setfilename] = useState("")
 
-    const handleFileChange = (event) => {
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(!event.target.files) return;
         const file = event.target.files[0];
         if (file) {
             setfilename(file.name);
