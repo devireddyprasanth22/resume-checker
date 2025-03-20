@@ -32,7 +32,15 @@ export default function UploadBox() {
             setFile(file)
         }
     }
-
+    const handleDrop = (event: React.DragEvent) => {
+        event.preventDefault();
+        const file = event.dataTransfer.files;
+        if (file) {
+            setfilename(file[0].name);
+            setFile(file[0]);
+        }
+      };
+    // async as waiting for file to be added to dom
     const handleFileUpload = async() => {
         if(!file){
             console.error("no file selected")
@@ -55,7 +63,7 @@ export default function UploadBox() {
     };
     return (
         <div>
-            <Box component='section' sx={boxStyling}>
+            <Box component='section' sx={boxStyling} onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
                 <Button variant="contained" component='label'>Add File<input type='file' hidden  onChange={handleFileChange}/></Button>
                 <p>or drag and drop here</p>
             </Box>
