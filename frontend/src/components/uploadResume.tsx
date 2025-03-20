@@ -30,7 +30,7 @@ export default function UploadBox() {
             const formData = new FormData();
             formData.append('resume', file);
             try{
-                const response = axios.post('http://localhost:5000/upload', formData, {
+                const response = axios.post('http://localhost:5001/upload', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     }
