@@ -1,6 +1,8 @@
 import * as React from "react";
 import Box from '@mui/material/Box';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import LinearProgress from '@mui/material/LinearProgress';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import axios from "axios";
@@ -19,7 +21,8 @@ const boxStyling = {
 };
 
 export default function UploadBox() {
-    const [filename, setfilename] = useState("")
+    const [filename, setfilename] = useState("");
+    const [uploadProgress, setUploadProgress] = useState(0);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if(!event.target.files) return;
@@ -33,6 +36,15 @@ export default function UploadBox() {
                 const response = axios.post('http://localhost:5001/upload', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
+                    },
+                    onUploadProgress: (progressEvent) => {
+                        if (progressEvent.total){
+
+                            setUploadProgress(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+                        }else{
+                            setUploadProgress(0);
+                            console.log("unable to compute progress as data length is not available");
+                        }
                     }
                 });
                 console.log(response)
@@ -49,8 +61,11 @@ export default function UploadBox() {
                 <Button variant="contained" component='label' endIcon={<CloudUploadIcon></CloudUploadIcon>} >Upload <input type='file' hidden onChange={handleFileChange}/></Button> 
                 <p>or drag and drop here</p>
             </Box>
-
-            {filename && <p>The document uploaded is {filename}</p>}
+            {filename && <div style={{display:'flex',alignItems:'flex-start', flexDirection:'column', width:'`100%', padding:'5px'}}> <p>{filename}</p> <div style={{ display:'flex', width:'100%', alignItems:'center'}}><LinearProgress variant="determinate" value={uploadProgress} style={{width:'80%', flex:1}} /> <DeleteIcon style={{ marginLeft:'10%', cursor:'pointer'}} onClick={()=> {
+                setfilename("");
+                setUploadProgress(0);
+            }}/></div></div>}
+            
         </div>
 
     );

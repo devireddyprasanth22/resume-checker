@@ -24,7 +24,8 @@ app.post('/upload', upload.single("resume"),(req, res) => {
         console.error("file upload error:", error)
     };
 });
-
+//app.delete
+//look into fs.unlink
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
