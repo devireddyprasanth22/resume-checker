@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import axios from "axios";
 
 const boxStyling = {
     p: { xs: 2, sm: 4, md: 6 }, 
@@ -23,8 +24,22 @@ export default function UploadBox() {
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if(!event.target.files) return;
         const file = event.target.files[0];
+        console.log(event.target.files);
         if (file) {
             setfilename(file.name);
+            const formData = new FormData();
+            formData.append('resume', file);
+            try{
+                const response = axios.post('http://localhost:5000/upload', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
+                });
+                console.log(response)
+
+            } catch (error) {
+                console.error("file upload error:", error)
+            }
         }
         console.log(file)
     }
