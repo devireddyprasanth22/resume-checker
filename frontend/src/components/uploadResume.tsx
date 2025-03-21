@@ -4,7 +4,6 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import axios from "axios";
 
 const boxStyling = {
     p: { xs: 2, sm: 4, md: 6 },
@@ -19,9 +18,8 @@ const boxStyling = {
     flexWrap: 'wrap'
 };
 
-export default function UploadBox() {
+export default function UploadBox({setFile}: {setFile: (file: File|null) => void}) {
     const [filename, setfilename] = useState("");
-    const [file, setFile] = useState<File | null>(null);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files) return;
@@ -40,31 +38,10 @@ export default function UploadBox() {
             setFile(file[0]);
         }
       };
-    // async as waiting for file to be added to dom
-    const handleFileUpload = async() => {
-        if(!file){
-            console.error("no file selected")
-            return;
-        };
-        const formData = new FormData();
-        formData.append('resume', file);
-        try {
-            const response = await axios.post('http://localhost:5001/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            console.log("reached this line",response)
-
-        } catch (error) {
-            console.error("file upload error:", error)
-        }
-
-    };
     return (
         <div>
             <Box component='section' sx={boxStyling} onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
-                <Button variant="contained" component='label'>Add File<input type='file' hidden  onChange={handleFileChange}/></Button>
+                <Button variant="contained" component='label' endIcon={<CloudUploadIcon/>}>Add File<input type='file' hidden  onChange={handleFileChange}/></Button>
                 <p>or drag and drop here</p>
             </Box>
             {filename && 
@@ -77,7 +54,6 @@ export default function UploadBox() {
                 setFile(null);
             }} />
             </div>
-            <Button variant="contained" endIcon={<CloudUploadIcon></CloudUploadIcon>} onClick={handleFileUpload}>Upload</Button>
             </div>
             }
         </div>

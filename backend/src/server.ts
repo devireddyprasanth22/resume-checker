@@ -17,6 +17,8 @@ const upload = multer({
 
 app.post('/upload', upload.single("resume"),async (req, res) => {
     try {
+        const JobDescription = req.body.jobDescription;
+        console.log(JobDescription);
         console.log(req.file);
         res.send("file uploaded successfully");
     }

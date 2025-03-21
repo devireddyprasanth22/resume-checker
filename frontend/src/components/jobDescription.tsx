@@ -2,7 +2,15 @@ import * as React from "react";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { Box } from "@mui/material";
 
-export default function JobDescription() {
+export default function JobDescription({setJobDescription}: {setJobDescription: (description: string|null) => void}) {
+    const handleChange = (event:React.ChangeEvent<HTMLTextAreaElement>) => {
+        if (!event.target.value) {
+            setJobDescription(null);
+            return;
+        } else if (event.target.value) {
+            setJobDescription(event.target.value);
+        }
+    };
     return (
         <Box
             sx={{
@@ -26,6 +34,7 @@ export default function JobDescription() {
                     outline: "none", 
                     background: "transparent", 
                 }}
+                onChange={handleChange}
             />
         </Box>
     );
