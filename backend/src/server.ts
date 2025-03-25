@@ -3,6 +3,7 @@ import express from "express";
 import multer from "multer";
 import cors from "cors";
 import resumeExtractor from "./resumeExtractor";
+import analyzeResume from "./descriptionMatcher";
 
 const app = express();
 const port = 5001;
@@ -22,6 +23,8 @@ app.post('/upload', upload.single("resume"),async (req, res) => {
         console.log(JobDescription);
         const text = await resumeExtractor(req.file?.path || "");
         console.log(text);
+        const feedback = await analyzeResume(text, JobDescription);
+        console.log(feedback);
         res.send("file uploaded successfully");
     }
     catch (error) {

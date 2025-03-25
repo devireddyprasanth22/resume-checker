@@ -1,7 +1,7 @@
 import {pdfToText} from 'pdf-ts';
 import fs from 'fs';
 
-const resumeExtractor = async (filePath: string):Promise<String> => {
+const resumeExtractor = async (filePath: string):Promise<string> => {
     if (!fs.existsSync(filePath)) {
         throw new Error("File does not exist");
     }
