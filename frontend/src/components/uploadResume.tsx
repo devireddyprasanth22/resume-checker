@@ -42,7 +42,7 @@ export default function UploadBox({setFile}: {setFile: (file: File|null) => void
         <div>
             <Box component='section' sx={boxStyling} onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
                 <Button variant="contained" component='label' endIcon={<CloudUploadIcon/>}>Add File<input type='file' hidden  onChange={handleFileChange}/></Button>
-                <p>or drag and drop here</p>
+                <p>or drag and drop here (only pdf currently)</p>
             </Box>
             {filename && 
             <div> 
