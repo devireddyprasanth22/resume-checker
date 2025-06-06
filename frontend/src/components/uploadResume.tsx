@@ -24,6 +24,7 @@ export default function UploadBox({setFile}: {setFile: (file: File|null) => void
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files) return;
         const file = event.target.files[0];
+        console.log("File selected:", file);
         console.log(event.target.files);
         if (file) {
             setfilename(file.name);
@@ -41,7 +42,7 @@ export default function UploadBox({setFile}: {setFile: (file: File|null) => void
     return (
         <div>
             <Box component='section' sx={boxStyling} onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
-                <Button variant="contained" component='label' endIcon={<CloudUploadIcon/>}>Add File<input type='file' hidden  onChange={handleFileChange}/></Button>
+                <Button variant="contained" component='label' endIcon={<CloudUploadIcon/>}>Add File<input type='file'  id='fileInput' hidden  onChange={handleFileChange}/></Button>
                 <p>or drag and drop here (only pdf currently)</p>
             </Box>
             {filename && 
@@ -52,6 +53,7 @@ export default function UploadBox({setFile}: {setFile: (file: File|null) => void
                     <DeleteIcon style={{cursor: 'pointer'}} onClick={() => {
                 setfilename("");
                 setFile(null);
+                (document.getElementById('fileInput') as HTMLInputElement).value = ""; // clear the cached file input to allow reselecting the same file
             }} />
             </div>
             </div>
