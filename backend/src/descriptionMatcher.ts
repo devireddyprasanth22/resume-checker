@@ -13,7 +13,12 @@ export const analyzeResume = async (resumeText: string | null, jobDescription: s
     Job Description:
     ${jobDescription}
 
-    Output as JSON format.`;
+    Respond **only** with valid JSON, without any markdown formatting or explanations. Format example:
+    {
+    "similarityScore": 85,
+    "missingSkills": ["TypeScript"],
+    "improvementSuggestions": ["Add more detail on React projects"]
+    }`;
 
     const response = await openai.chat.completions.create({
         model: "gpt-4o",

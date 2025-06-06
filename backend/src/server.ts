@@ -16,7 +16,7 @@ app.use(cors({
 const upload = multer({
     dest: 'uploads/'
 });
-
+app.use('/uploads', express.static('uploads'));
 app.post('/upload', upload.single("resume"),async (req, res) => {
     try {
         const JobDescription = req.body.jobDescription;
