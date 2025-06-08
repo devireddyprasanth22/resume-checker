@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     if (!file || !jobDescription) {
@@ -22,7 +23,8 @@ function UploadPage() {
     formData.append("jobDescription", jobDescription);
 
     try {
-      await axios.post("http://localhost:5001/upload", formData);
+      const response = await axios.post("http://localhost:5001/uploads", formData);
+      navigate("/analysed", { state: { responseData: response.data } })
     } catch (error) {
       console.error("File upload error:", error);
     }
