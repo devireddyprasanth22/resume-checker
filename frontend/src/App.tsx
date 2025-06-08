@@ -1,11 +1,13 @@
 import { useState } from 'react'
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css'
 import UploadBox from './components/uploadResume'
 import JobDescription from './components/jobDescription'
+import AnalyzedFeedback from './components/analyzedFeedback'
 import axios from "axios";
 import Button from "@mui/material/Button";
 
-function App() {
+function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState<string | null>(null);
 
@@ -44,6 +46,14 @@ function App() {
     </div>
     </>
   )
+}
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<UploadPage />} />
+      <Route path="/analysed" element={<AnalyzedFeedback />} />
+    </Routes>
+  );
 }
 
 export default App

@@ -20,12 +20,10 @@ app.use('/uploads', express.static('uploads'));
 app.post('/upload', upload.single("resume"),async (req, res) => {
     try {
         const JobDescription = req.body.jobDescription;
-        console.log(JobDescription);
         const text = await resumeExtractor(req.file?.path || "");
-        console.log(text);
         const feedback = await analyzeResume(text, JobDescription);
         console.log(feedback);
-        res.send("file uploaded successfully");
+        res.send(feedback);
     }
     catch (error) {
         console.error("file upload error:", error)
