@@ -22,7 +22,7 @@ app.post('/uploads', upload.single("resume"),async (req, res) => {
     try {
         const JobDescription = req.body.jobDescription;
         const text = await resumeExtractor(req.file?.path || "");
-        const feedback = await analyzeResume(text, JobDescription);
+        const feedback = await analyzeResume(text, JobDescription, res);
         console.log(feedback);
         recentFeedback = feedback;
         res.send(feedback);
