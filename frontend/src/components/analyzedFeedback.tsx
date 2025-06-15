@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 // Alternative syntax: export default function AnalyzedFeedback({feedback}: {feedback : JSON}){};
 export default function AnalyzedFeedback() {
@@ -15,7 +16,11 @@ export default function AnalyzedFeedback() {
           .catch(error => console.error("Error fetching feedback:", error));
       },[]);
     return (
-        <div>
+        <motion.div
+        initial={{ opacity: 0, y: 20 }}    
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.5 }}>
             <Box sx={{ p: 2, border: "1px solid grey", width: "80%", margin: "auto", mt: 4 }}>
                 <h2>Analyzed Feedback</h2>
                 {feedback ? (
@@ -27,6 +32,6 @@ export default function AnalyzedFeedback() {
             <Button variant="contained" onClick={() => window.location.reload()} sx={{ mt: 2 }}>
                 Refresh Feedback
             </Button>
-        </div>
+        </motion.div>
     )
 };
