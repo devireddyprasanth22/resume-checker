@@ -22,7 +22,7 @@ function UploadPage() {
     formData.append("jobDescription", jobDescription);
 
     try {
-      const response = await axios.post("http://localhost:5001/upload", formData);
+      const response = await axios.post("http://localhost:5001/uploads", formData);
       navigate("/analysed", { state: { responseData: response.data } })
     } catch (error) {
       console.error("File upload error:", error);

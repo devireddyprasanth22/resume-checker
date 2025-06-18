@@ -34,7 +34,7 @@ export default function AnalyzedFeedback() {
             <Box sx={{ p: 2, border: "1px solid grey", width: "100%", margin: "auto", mt: 4 }}>
                 <h2>Analyzed Feedback</h2>
                 {feedback ? (
-                    <pre>{JSON.stringify(feedback, null, 2)}</pre>
+                    <pre>{feedback}</pre>
                 ) : (
                     <p>Loading feedback...</p>
                 )}
