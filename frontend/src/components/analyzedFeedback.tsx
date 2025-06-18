@@ -7,16 +7,24 @@ import {useNavigate } from 'react-router-dom';
 // Alternative syntax: export default function AnalyzedFeedback({feedback}: {feedback : JSON}){};
 export default function AnalyzedFeedback() {
     const navigate = useNavigate();
-    const [feedback, setFeedback] = useState<JSON | null>(null);
+    const [feedback, setFeedback] = useState<string>("");
     useEffect(() => {
-        // Fetch feedback once when component mounts
-        fetch("http://localhost:5001/uploads")
-          .then(response => response.json())
-          .then(data => {
-            setFeedback(data);
-          })
-          .catch(error => console.error("Error fetching feedback:", error));
-      },[]);
+        const eventSource = new EventSource("http://localhost:5001/uploads");
+        eventSource.onmessage = (event) => {
+            if(event.data === "[DONE]") {
+                eventSource.close();
+            } else {
+                setFeedback(prevData => prevData + event.data);
+            }
+        };
+        eventSource.onerror = (error) => {
+            console.error("EventSource failed:", error);
+            eventSource.close();
+        };
+        return () => {
+            eventSource.close();
+        }
+    },[]);
     return (
         <motion.div
         initial={{ opacity: 0, y: 20 }}    
